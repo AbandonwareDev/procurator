@@ -1,4 +1,4 @@
-module git.sual.in/casual/Procurator
+module git.sual.in/casual/procurator
 
 go 1.22.2
 
