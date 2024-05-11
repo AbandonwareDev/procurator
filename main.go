@@ -9,33 +9,25 @@ import (
 )
 
 var waitGroup sync.WaitGroup
-
-
+var TUI *tea.Program
 
 func main() {
-	options, err := ParseOptions()
+	_, err := ParseOptions()
+	// options, err := ParseOptions()
 	errHandler(err, "Error parsing options")
 
-	fmt.Println("hello world", options)
+	model := initialModel()
+	TUI = tea.NewProgram(
+		&model,
+		tea.WithAltScreen(), // use the full size of the terminal in its "alternate screen buffer"
+		// tea.WithMouseCellMotion(), // turn on mouse support so we can track the mouse wheel
+	)
 
-// 	// start workers in parallel
-// 	for i := 0; i < options.Threads; i++ {
-// 		waitGroup.Add(1)
-// 		go func() {
-// 			fmt.Println("do parallel stuff")
-// 
-// 			defer waitGroup.Done()
-// 		}()
-// 	}
-// 	waitGroup.Wait()
-p := tea.NewProgram(initialModel())
-    if _, err := p.Run(); err != nil {
-        fmt.Printf("Alas, there's been an error: %v", err)
-        os.Exit(1)
-    }
+	go watchFilesystem()
 
-
-
+	if _, err := TUI.Run(); err != nil {
+		errHandler(err, "Tui error:")
+	}
 }
 
 func errHandler(err error, message string) {

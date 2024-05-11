@@ -24,9 +24,9 @@ func ParseOptions() (*Options, error) {
 		flagSet.SetDescription("Procurator - your little Git TUI")
 
 		// flagSet.CreateGroup("input", "Input",
-			// flagSet.StringVarP(&options.URL, "u", "url", "", "target's url"),
-			// flagSet.IntVarP(&options.Threads, "t", "threads", 10, "threads to run"), //TODO add estimate counter to packets/s
-			// flagSet.StringVarP(&options.URL, "u", "url", "", "verbose"),
+		// flagSet.StringVarP(&options.URL, "u", "url", "", "target's url"),
+		// flagSet.IntVarP(&options.Threads, "t", "threads", 10, "threads to run"), //TODO add estimate counter to packets/s
+		// flagSet.StringVarP(&options.URL, "u", "url", "", "verbose"),
 		// )
 		_ = flagSet.Parse()
 
