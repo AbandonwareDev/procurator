@@ -10,6 +10,7 @@ import (
 
 	// "strings"
 	// "time"
+	// "log"
 
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/viewport"
@@ -74,11 +75,33 @@ func (m *model) Init() tea.Cmd {
 	return nil
 }
 
+type continueExec string
+
+var fileUpdatedBool bool
+var choiceActionBool bool
+
 func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	// var (
-	// 		// cmd  tea.Cmd
-	// 		cmds []tea.Cmd
-	// 	)
+	var (
+		cmd tea.Cmd
+		// cmds []tea.Cmd
+		// continueExec string
+
+	)
+
+	if fileUpdatedBool {
+		m.viewport.SetContent(watchRun())
+		m.viewport.GotoBottom()
+		fileUpdatedBool = false
+	}
+	if choiceActionBool {
+		i, ok := m.list.SelectedItem().(item)
+		if ok {
+			m.viewport.SetContent(choiceAction(string(i)))
+			m.viewport.GotoBottom()
+		}
+		fileUpdatedBool = false
+		choiceActionBool = false
+	}
 
 	switch msg := msg.(type) {
 
@@ -106,15 +129,18 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		// The "enter" key and the spacebar (a literal space) toggle
 		// the selected state for the item that the cursor is pointing at.
 		case "enter", " ":
-			i, ok := m.list.SelectedItem().(item)
-			if ok {
-				// m.choice = string(i)
-				skipNextViewportUpdate = true
-				m.viewport.SetContent("[Running...]")
-				m.viewport.SetContent(choiceAction(string(i)))
-				m.viewport.GotoBottom()
+			skipNextViewportUpdate = true
+			m.viewport.SetContent("[Running...]") //TODO not working, probably need do in another update, so need to mkae it set here and return msg
+			// continueExecVar = "choiceAction"
+			// TUI.Send(func() tea.Msg{return continueExecVar})
+			// continueExecVar = ""
+			go TUI.Send(func() tea.Msg { // foroce rerender probably there are better solutions
+				// time.Sleep(time.Second / 10)
+				return ""
+			})
+			choiceActionBool = true
+			return m, nil
 
-			}
 		}
 	case tea.WindowSizeMsg:
 		headerHeight := lipgloss.Height(m.headerView())
@@ -154,18 +180,43 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		// }
 
 	case fileUpdated:
-		if !skipNextViewportUpdate {
-			m.viewport.SetContent("[Running...]")
-			m.viewport.SetContent(watchRun())
-			m.viewport.GotoBottom()
-			return m, nil
-		}
-		skipNextViewportUpdate = false
+		// if !skipNextViewportUpdate { //TODO useless
+		m.viewport.SetContent("[Running...]")
+
+		go TUI.Send(func() tea.Msg { //probably there are better solutions
+			// time.Sleep(time.Second / 10)
+			return ""
+		})
+		fileUpdatedBool = true
+		// time.Sleep(time.Second*2)
+
+		// continueExecVar = ""
+		// return m, nil
+		// }
+		// skipNextViewportUpdate = false //TODO useless
+
+		// case continueExec:
+		// 	switch msg{
+		// 		case "choiceAction":
+		// 			i, ok := m.list.SelectedItem().(item)
+		// 			if ok {
+		// 				m.viewport.SetContent(choiceAction(string(i)))
+		// 				m.viewport.GotoBottom()
+		// 			}
+		// 			// return m, nil
+		// 		case "watchRun":
+		// 			// log.Println("tets")
+		// 			m.viewport.SetContent(watchRun())
+		// 			m.viewport.GotoBottom()
+		// 			// return m, nil
+		//
+		// 	}
 
 	}
+
 	// Return the updated model to the Bubble Tea runtime for processing.
 	// Note that we're not returning a command.
-	var cmd tea.Cmd
+	// var cmd tea.Cmd
 	m.list, cmd = m.list.Update(msg)
 	return m, cmd
 	// return m, nil

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
+	// "os"
 	"strings"
 
 	"github.com/charmbracelet/bubbles/list"
@@ -108,6 +109,9 @@ func choiceAction(input string) string {
 	case "git commit":
 		// TODO add input message box
 	case "git push":
+		// cmd := exec.Command("git","push")
+		// cmd.Env = os.Environ() // for using ssh keys
+		// output, err := cmd.CombinedOutput()
 		output, err := exec.Command("git", "push").CombinedOutput()
 		if err != nil {
 			return "[ERROR] - executing command failed\n" + string(output)
