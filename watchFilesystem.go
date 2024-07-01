@@ -62,6 +62,7 @@ func watchFilesystem() { //TODO watch subfolders
 	}()
 
 	//get subdirectories
+	// err = watcher.Add("...") //TODO waiting for official recursive add https://github.com/fsnotify/fsnotify/issues/18
 	var subdirs []string
 	filepath.WalkDir(".", func(path string, file fs.DirEntry, err error) error {
 		if err != nil {
@@ -81,7 +82,6 @@ func watchFilesystem() { //TODO watch subfolders
 		}
 	}
 	// Add a current path.
-	// err = watcher.Add("...") //TODO waiting for official recursive add https://github.com/fsnotify/fsnotify/issues/18
 	err = watcher.Add(".")
 	if err != nil {
 		errHandler(err, "Filesystem Watcher - Can't add current dir:")
@@ -92,7 +92,7 @@ func watchFilesystem() { //TODO watch subfolders
 }
 
 func watchRun() string {
-	//TODO if edited .go file
+	//TODO if edited .go file or go.mod/go.sum
 	return GoVet()
 }
 
