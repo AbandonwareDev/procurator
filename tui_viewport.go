@@ -48,7 +48,7 @@ func (m *model) footerView() string {
 
 func getCurrentFolder() string { //TODO bug, shows not current folder but folder of execuutable
 	// folderPath, err := osext.ExecutableFolder()
-	folderPath, err := os.Getwd() 
+	folderPath, err := os.Getwd()
 	// folderPath, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	folders := strings.Split(folderPath, "/")
 	if err != nil {

@@ -6,7 +6,7 @@ import (
 	// "errors"
 	// // "flag"
 	"io/fs"
-		"path/filepath"
+	"path/filepath"
 	// "fmt"
 	// "io/ioutil"
 	// "log"
@@ -62,23 +62,23 @@ func watchFilesystem() { //TODO watch subfolders
 	}()
 
 	//get subdirectories
-	var subdirs []string 
-	filepath.WalkDir(".", func(path string, file fs.DirEntry,  err error) error {
-			if err != nil {
-				return err
-			}
-			if file.IsDir() {
-				// fmt.Println(path);
-				subdirs = append(subdirs,path)	
-			}
-	
-			return nil;
-		});
-	for _,dir := range subdirs {
+	var subdirs []string
+	filepath.WalkDir(".", func(path string, file fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if file.IsDir() {
+			// fmt.Println(path);
+			subdirs = append(subdirs, path)
+		}
+
+		return nil
+	})
+	for _, dir := range subdirs {
 		err = watcher.Add(dir)
-			if err != nil {
-				errHandler(err, "Filesystem Watcher - Can't add current dir:")
-			}
+		if err != nil {
+			errHandler(err, "Filesystem Watcher - Can't add current dir:")
+		}
 	}
 	// Add a current path.
 	// err = watcher.Add("...") //TODO waiting for official recursive add https://github.com/fsnotify/fsnotify/issues/18

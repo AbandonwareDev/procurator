@@ -52,40 +52,6 @@ var (
 	quitTextStyle     = lipgloss.NewStyle().Margin(1, 0, 2, 4)
 )
 
-// func (m *model) choicesView() string {
-//     // The header
-//     s := "What should we buy at the market?\n\n"
-//
-//     // Iterate over our choices
-//     for i, choice := range m.choices {
-//
-//         // Is the cursor pointing at this choice?
-//         cursor := " " // no cursor
-//         if m.cursor == i {
-//             cursor = ">" // cursor!
-//         }
-//
-//         // Is this choice selected?
-//         checked := " " // not selected
-//         if _, ok := m.selected[i]; ok {
-//             checked = "x" // selected!
-//         }
-//
-//         // Render the row
-//         s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice)
-//     }
-//
-//     // The footer
-//     s += "\nPress q to quit.\n"
-//
-//     // Send the UI for rendering
-//     // return s
-//     return s
-// }
-//
-
-// type errorRunningCommand string
-// const errorMsg=""
 
 func choiceAction(input string) string {
 	switch input {
@@ -107,6 +73,12 @@ func choiceAction(input string) string {
 		}
 		return "[OK]\n" + string(output)
 	case "git commit":
+	case "update go modules":
+		output, err := exec.Command("go", "get", "-u").CombinedOutput()
+		if err != nil {
+			return "[ERROR] - executing command failed\n" + string(output)
+		}
+		return "[OK]\n" + string(output)
 		// TODO add input message box
 	case "git push":
 		// cmd := exec.Command("git","push")
