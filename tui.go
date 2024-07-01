@@ -39,10 +39,13 @@ func initialModel() model {
 		item("fmt code"),
 		item("git add ."),
 		// item("git commit"), TODO
+		// item("update go moduules"), TODO - go get -u
 		item("git push"),
 		// item("add to gitignore"), TODO
 		// item("go mod init github_repo"), TODO
 		// item("remove file from git history"), TODO
+		
+		
 	}
 	l := list.New(items, itemDelegate{}, defaultWidth, listHeight)
 	// l.Title = "What do you want for dinner?"

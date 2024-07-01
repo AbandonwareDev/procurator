@@ -5,6 +5,8 @@ package main
 import (
 	// "errors"
 	// // "flag"
+	"io/fs"
+		"path/filepath"
 	// "fmt"
 	// "io/ioutil"
 	// "log"
@@ -28,7 +30,7 @@ import (
 type fileUpdated bool
 
 // func watchFilesystem(tui *tea.Program) {
-func watchFilesystem() {
+func watchFilesystem() { //TODO watch subfolders
 	// Create new watcher.
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
@@ -59,7 +61,27 @@ func watchFilesystem() {
 		}
 	}()
 
+	//get subdirectories
+	var subdirs []string 
+	filepath.WalkDir(".", func(path string, file fs.DirEntry,  err error) error {
+			if err != nil {
+				return err
+			}
+			if file.IsDir() {
+				// fmt.Println(path);
+				subdirs = append(subdirs,path)	
+			}
+	
+			return nil;
+		});
+	for _,dir := range subdirs {
+		err = watcher.Add(dir)
+			if err != nil {
+				errHandler(err, "Filesystem Watcher - Can't add current dir:")
+			}
+	}
 	// Add a current path.
+	// err = watcher.Add("...") //TODO waiting for official recursive add https://github.com/fsnotify/fsnotify/issues/18
 	err = watcher.Add(".")
 	if err != nil {
 		errHandler(err, "Filesystem Watcher - Can't add current dir:")

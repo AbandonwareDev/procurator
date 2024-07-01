@@ -3,9 +3,9 @@ package main
 import (
 	// "fmt"
 
-	// "os"
+	"os"
 	// "path/filepath"
-	"github.com/kardianos/osext"
+	// "github.com/kardianos/osext"
 	// "unicode"
 
 	"strings"
@@ -46,8 +46,9 @@ func (m *model) footerView() string {
 	return lipgloss.JoinHorizontal(lipgloss.Center, line)
 }
 
-func getCurrentFolder() string {
-	folderPath, err := osext.ExecutableFolder()
+func getCurrentFolder() string { //TODO bug, shows not current folder but folder of execuutable
+	// folderPath, err := osext.ExecutableFolder()
+	folderPath, err := os.Getwd() 
 	// folderPath, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	folders := strings.Split(folderPath, "/")
 	if err != nil {
