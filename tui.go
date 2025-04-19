@@ -40,9 +40,10 @@ func initialModel() model {
 		item("git add ."),
 		// item("git add & commit"), TODO we need dialog box
 		item("git push"),
+		item("go install ./"),
 		item("update go modules"), //TODO - go get -u
-		// item("add to gitignore"), TODO
-		// item("go mod init github_repo"), TODO
+		// item("add to gitignore"), TODO file dialog chooser
+		// item("go mod init github_repo"), TODO dialog to repo path? how can i get it from .git folder?
 		// item("remove file from git history"), TODO
 
 	}

@@ -93,6 +93,13 @@ func choiceAction(input string) string {
 		// TODO add input message box with option to choose file or import filter
 	case "go mod init github_repo":
 		// TODO add input message box OR add fetching link via .git
+	case "go install ./":
+		output, err := exec.Command("go", "install", "./").CombinedOutput()
+		if err != nil {
+			return "[ERROR] - executing command failed\n" + string(output)
+
+		}
+		return "[OK]\n" + string(output)
 	case "remove file from git history":
 		// TODO add file chooser
 	default:
