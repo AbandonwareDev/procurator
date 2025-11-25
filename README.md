@@ -25,4 +25,12 @@ Apart from that, here is regular quick commands like `git add .`, `git push`, `g
  - add programming language autodetect
  - add other programming language support
  - add support of detecting changes in subfolders (maybe it works)
- - make quick commands configurable/modular (like in project file with commands) (or presets)
+ - make quick commands configurable/modular (like in project file with commands) (or presets/user-defined)
+
+
+
+
+
+
+
+
