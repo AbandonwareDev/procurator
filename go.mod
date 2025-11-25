@@ -1,4 +1,4 @@
-module git.sual.in/casual/procurator
+module github.com/AbandonwareDev/procurator
 
 go 1.22.2
 
