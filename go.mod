@@ -1,4 +1,4 @@
-module git.sual.in/casual/procurator
+module github.com/AbandonwareDev/procurator
 
 go 1.22.2
 
@@ -52,5 +52,3 @@ require (
 	golang.org/x/tools v0.22.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace git.sual.in/casual/procurator => github.com/AbandonwareDev/procurator latest
