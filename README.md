@@ -2,6 +2,9 @@
 
 My GoLang project manager/helper TUI 
 
+![](./.media/vhs.gif)
+
+
 ## Description
 
 It's TUI which automatically run `go mod tidy; go vet` if any file in directory changes and shows result.
